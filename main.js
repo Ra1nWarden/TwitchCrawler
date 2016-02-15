@@ -2,36 +2,51 @@ var request = require('sync-request');
 var fs = require('fs');
 var sleep = require('sleep');
 var moment = require('moment');
+var excelbuilder = require('msexcel-builder');
 
-var crawler = function(fileName) {
+var crawler = function(sheet) {
   var summaryRes =
     JSON.parse(
       request('GET',
               'https://api.twitch.tv/kraken/streams/summary').getBody());
-  fs.appendFileSync(fileName, 'total channels: ' + summaryRes.channels + '\n' + 'total viewers: ' + summaryRes.viewers + '\n');
   var topHundredRes =
     JSON.parse(
       request('GET',
               'https://api.twitch.tv/kraken/streams?limit=100').getBody());
+  var idx = 1;
   topHundredRes.streams.forEach(function(stream) {
     var chan = stream.channel;
-    fs.appendFileSync(fileName, chan.display_name + ',' + stream.viewers + '\n');
+    // get channel name and viewers
+    sheet.set(1, idx, chan.status);
+    sheet.set(2, idx, stream.viewers);
+    idx++;
   });
-  console.log('Finished writing to ' + fileName);
+  sheet.set(1, 101, 'Total channels');
+  sheet.set(2, 101, summaryRes.channels);
+  sheet.set(1, 102, 'Total viewers');
+  sheet.set(2, 102, summaryRes.viewers);
 };
 
 var crawl = function() {
   var dir = './output';
+  // create output folder
   if(!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
   }
-  while(true) {
+  var cnt = process.argv[2];
+  while(cnt--) {
     var time = moment();
     var timeString = time.format('YYYY-MM-DD_HH-mm');
-    var fileName = dir + '/' + timeString + '.txt';
-    fs.writeFileSync(fileName, time.format('MMMM Do YYYY, h:mm:ss a') + '\n');
-    crawler(fileName);
-    sleep.sleep(300);
+    var fileName = timeString + '.xlsx';
+    var workbook = excelbuilder.createWorkbook('./output/', fileName);
+    var sheet = workbook.createSheet('data', 2, 102);
+    crawler(sheet);
+    workbook.save(function(ok) {
+      console.log('done');
+    });
+    if(cnt) {
+      sleep.sleep(300);
+    }
   }
 }
 

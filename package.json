@@ -4,7 +4,7 @@
   "description": "A simple crawler that routinely fetches data from Twitch",
   "main": "main.js",
   "scripts": {
-    "start": "node main.js",
+    "start": "node main.js 1",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,7 +16,8 @@
   "dependencies": {
     "sync-request": "*",
     "sleep": "*",
-    "moment": "*"
+    "moment": "*",
+    "msexcel-builder": "*"
   },
   "bugs": {
     "url": "https://github.com/Ra1nWarden/TwitchCrawler/issues"
