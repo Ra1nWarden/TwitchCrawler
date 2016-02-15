@@ -1,0 +1,25 @@
+{
+  "name": "twitch_crawler",
+  "version": "1.0.0",
+  "description": "A simple crawler that routinely fetches data from Twitch",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ra1nWarden/TwitchCrawler.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "sync-request": "*",
+    "sleep": "*",
+    "moment": "*"
+  },
+  "bugs": {
+    "url": "https://github.com/Ra1nWarden/TwitchCrawler/issues"
+  },
+  "homepage": "https://github.com/Ra1nWarden/TwitchCrawler#readme"
+}
