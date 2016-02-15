@@ -36,13 +36,15 @@ var crawl = function() {
   var cnt = process.argv[2];
   while(cnt--) {
     var time = moment();
-    var timeString = time.format('YYYY-MM-DD_HH-mm');
+    var timeString = time.format('YYYY-MM-DD_HH-mm-ss');
     var fileName = timeString + '.xlsx';
     var workbook = excelbuilder.createWorkbook('./output/', fileName);
     var sheet = workbook.createSheet('data', 2, 102);
     crawler(sheet);
-    workbook.save(function(ok) {
-      console.log('done');
+    workbook.save(function(err) {
+      if(err) {
+        console.log('Error!');
+      }
     });
     if(cnt) {
       sleep.sleep(300);
