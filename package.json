@@ -15,7 +15,6 @@
   "license": "ISC",
   "dependencies": {
     "sync-request": "*",
-    "sleep": "*",
     "moment": "*",
     "msexcel-builder": "*"
   },

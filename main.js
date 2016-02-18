@@ -1,6 +1,5 @@
 var request = require('sync-request');
 var fs = require('fs');
-var sleep = require('sleep');
 var moment = require('moment');
 var excelbuilder = require('msexcel-builder');
 
@@ -28,28 +27,22 @@ var crawler = function(sheet) {
 };
 
 var crawl = function() {
-  var dir = './output';
+  var dir = '.\\output';
   // create output folder
   if(!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
   }
-  var cnt = process.argv[2];
-  while(cnt--) {
-    var time = moment();
-    var timeString = time.format('YYYY-MM-DD_HH-mm-ss');
-    var fileName = timeString + '.xlsx';
-    var workbook = excelbuilder.createWorkbook('./output/', fileName);
-    var sheet = workbook.createSheet('data', 2, 102);
-    crawler(sheet);
-    workbook.save(function(err) {
-      if(err) {
-        console.log('Error!');
-      }
-    });
-    if(cnt) {
-      sleep.sleep(300);
+  var time = moment();
+  var timeString = time.format('YYYY-MM-DD_HH-mm-ss');
+  var fileName = timeString + '.xlsx';
+  var workbook = excelbuilder.createWorkbook('.\\output\\', fileName);
+  var sheet = workbook.createSheet('data', 2, 102);
+  crawler(sheet);
+  workbook.save(function(err) {
+    if(err) {
+      console.log('Error!');
     }
-  }
+  });
 }
 
 console.log('Crawling...Press ctrl + c to stop...')
